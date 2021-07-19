@@ -17,5 +17,5 @@ public class PlaceDto {
 
     private String detail;
 
-    private Long phoneNum;
+    private String phoneNum;
 }
