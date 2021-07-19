@@ -51,4 +51,14 @@ public class PlaceService {
         placeRepository.deleteById(place_id);
     }
 
+    public PlaceDto modifyPlace(Long place_id, PlaceDto placeDto) throws  NotFoundException {
+        Optional<Place> find = placeRepository.findById(place_id);
+        if(find.isEmpty())
+            throw new NotFoundException("not found");
+        placeRepository.deleteById(place_id);
+        Place place = new Place();
+        modelMapper.map(placeDto,place);
+        placeRepository.save(place);
+        return placeDto;
+    }
 }

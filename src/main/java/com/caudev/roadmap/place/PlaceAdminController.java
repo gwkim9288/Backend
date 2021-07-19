@@ -49,17 +49,18 @@ public class PlaceAdminController {
 
     @PostMapping
     public ResponseEntity createPlace (@RequestBody PlaceDto placeDto){
-        placeService.createPlace(placeDto);
+        PlaceDto placeDto1 = placeService.createPlace(placeDto);
+        return ResponseEntity.ok(placeDto1);
     }
 
     @PutMapping("/{place_id}")
     public ResponseEntity modifyPlace (@PathVariable Long place_id, @RequestBody PlaceDto placeDto){
-        Place place;
+        PlaceDto placeDto1;
         try{
-            place = placeService.modifyPlace(place_id,placeDto);
+            placeDto1 = placeService.modifyPlace(place_id,placeDto);
         } catch (NotFoundException e){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(place);
+        return ResponseEntity.ok(placeDto1);
     }
 }
