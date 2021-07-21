@@ -1,5 +1,4 @@
 package com.caudev.roadmap.restaurant;
 
-public class Restaurant {
-    
+public class RestaurantDto {
 }
