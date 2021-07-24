@@ -27,8 +27,8 @@ public class Place {
     private String detail;
 
     private Long phoneNum;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private Spot spot;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Spot spot;
 
 }

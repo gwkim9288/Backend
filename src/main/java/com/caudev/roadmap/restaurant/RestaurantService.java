@@ -1,8 +1,5 @@
 package com.caudev.roadmap.restaurant;
 
-import com.caudev.roadmap.Restaurant.Restaurant;
-import com.caudev.roadmap.Restaurant.RestaurantDto;
-import com.caudev.roadmap.Restaurant.RestaurantRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,44 +19,44 @@ public class RestaurantService {
     private final ModelMapper modelMapper;
 
     public Page<Restaurant> findAllRestaurants(Pageable pageable){
-        Page<Restaurant> RestaurantPage = restaurantRepository.findAll(pageable);
-        return RestaurantPage;
+        Page<Restaurant> restaurantPage = restaurantRepository.findAll(pageable);
+        return restaurantPage;
     }
 
-    public RestaurantDto createRestaurant(RestaurantDto RestaurantDto){
-        Restaurant Restaurant = new Restaurant();
-        modelMapper.map(RestaurantDto,Restaurant);
-        restaurantRepository.save(Restaurant);
-        return RestaurantDto;
+    public RestaurantDto createRestaurant(RestaurantDto restaurantDto){
+        Restaurant restaurant = new Restaurant();
+        modelMapper.map(restaurantDto,restaurant);
+        restaurantRepository.save(restaurant);
+        return restaurantDto;
     }
 
-    public Restaurant findRestaurantById(Long Restaurant_id) throws NotFoundException {
-        Optional<Restaurant> Restaurant = restaurantRepository.findById(Restaurant_id);
-        if(Restaurant.isEmpty())
+    public Restaurant findRestaurantById(Long restaurant_id) throws NotFoundException {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurant_id);
+        if(restaurant.isEmpty())
             throw new NotFoundException("not found");
-        return Restaurant.get();
+        return restaurant.get();
     }
 
-    public Page<Restaurant> findRestaurantByName(String Restaurant_name,Pageable pageable) {
-        Page<Restaurant> restaurants = restaurantRepository.findByName(Restaurant_name,pageable);
-        return Restaurants;
+    public Page<Restaurant> findRestaurantByName(String restaurant_name,Pageable pageable) {
+        Page<Restaurant> restaurants = restaurantRepository.findByName(restaurant_name,pageable);
+        return restaurants;
     }
 
-    public void deleteRestaurant(Long Restaurant_id) throws NotFoundException{
-        Optional<Restaurant> find = restaurantRepository.findById(Restaurant_id);
+    public void deleteRestaurant(Long restaurant_id) throws NotFoundException{
+        Optional<Restaurant> find = restaurantRepository.findById(restaurant_id);
         if(find.isEmpty())
             throw new NotFoundException("not found");
-        restaurantRepository.deleteById(Restaurant_id);
+        restaurantRepository.deleteById(restaurant_id);
     }
 
-    public RestaurantDto modifyRestaurant(Long Restaurant_id, RestaurantDto RestaurantDto) throws  NotFoundException {
-        Optional<Restaurant> find = RestaurantRepository.findById(Restaurant_id);
+    public RestaurantDto modifyRestaurant(Long restaurant_id, RestaurantDto restaurantDto) throws  NotFoundException {
+        Optional<Restaurant> find = restaurantRepository.findById(restaurant_id);
         if(find.isEmpty())
             throw new NotFoundException("not found");
-        RestaurantRepository.deleteById(Restaurant_id);
-        Restaurant Restaurant = new Restaurant();
-        modelMapper.map(RestaurantDto,Restaurant);
-        RestaurantRepository.save(Restaurant);
-        return RestaurantDto;
+        restaurantRepository.deleteById(restaurant_id);
+        Restaurant restaurant = new Restaurant();
+        modelMapper.map(restaurantDto,restaurant);
+        restaurantRepository.save(restaurant);
+        return restaurantDto;
     }
 }

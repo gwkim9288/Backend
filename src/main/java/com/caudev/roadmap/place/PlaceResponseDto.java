@@ -1,13 +1,15 @@
 package com.caudev.roadmap.place;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Getter
-@Setter
-public class PlaceDto {
+public class PlaceResponseDto {
+
+    private Long id;
 
     private String name;
 
@@ -17,7 +19,5 @@ public class PlaceDto {
 
     private String detail;
 
-    private String phoneNum;
-
-    private Long spot_id;
+    private Long phoneNum;
 }
