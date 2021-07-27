@@ -1,7 +1,4 @@
-package com.caudev.roadmap.place;
-
-import com.caudev.roadmap.spot.SpotRepository;
-import com.caudev.roadmap.spot.SpotResponseDto;
+package com.caudev.roadmap.spot;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceResponseDto {
+public class SpotResponseDto {
 
     private Long id;
 
@@ -23,7 +20,4 @@ public class PlaceResponseDto {
     private String detail;
 
     private Long phoneNum;
-
-    private SpotResponseDto spotResponseDto;
-
 }

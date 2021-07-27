@@ -29,4 +29,10 @@ public class SpotService {
             throw new NotFoundException("not found : spot");
         spotRepository.deleteById(spot_id);
     }
+
+    public SpotResponseDto createSpotResponseDto(Spot spot){
+        SpotResponseDto spotResponseDto = modelMapper.map(spot,SpotResponseDto.class);
+        return spotResponseDto;
+    }
+
 }
