@@ -27,8 +27,11 @@ public class PlaceAdminController {
 
 
     @GetMapping
-    public Page<Place> findAllPlaces(Pageable pageable){
-        return placeService.findAllPlaces(pageable);
+    public ResponseEntity findAllPlaces(@PageableDefault(size = 10) Pageable pageable, PagedResourcesAssembler<Place> assembler){
+        Page<Place> places = placeService.findAllPlaces(pageable);
+        PagedModel<EntityModel<PlaceResponseDto>> model =
+                assembler.toModel(places, p -> PlaceResource.modelOf(placeService.createPlaceResponse(p)));
+        return ResponseEntity.ok(model);
     }
 
     @GetMapping("/search")
@@ -51,8 +54,10 @@ public class PlaceAdminController {
 
     @GetMapping("/{place_id}")
     public ResponseEntity findById(@PathVariable Long place_id) throws NotFoundException{
+
         Place place = placeService.findPlaceById(place_id);
-        return ResponseEntity.ok(place);
+        EntityModel<PlaceResponseDto> model = PlaceResource.modelOf(placeService.createPlaceResponse(place));
+        return ResponseEntity.ok(model);
     }
 
     @DeleteMapping("/{place_id}")
@@ -63,8 +68,9 @@ public class PlaceAdminController {
 
     @PostMapping
     public ResponseEntity createPlace (@RequestBody PlaceDto placeDto) throws NotFoundException {
-        PlaceDto placeDto1 = placeService.createPlace(placeDto);
-        return ResponseEntity.ok(placeDto1);
+        Place place = placeService.createPlace(placeDto);
+        EntityModel<PlaceResponseDto> model = PlaceResource.modelOf(placeService.createPlaceResponse(place));
+        return ResponseEntity.ok(model);
     }
 
     @PutMapping("/{place_id}")

@@ -2,6 +2,8 @@ package com.caudev.roadmap.place;
 
 import com.caudev.roadmap.spot.Spot;
 import com.caudev.roadmap.spot.SpotRepository;
+import com.caudev.roadmap.spot.SpotResponseDto;
+import com.caudev.roadmap.spot.SpotService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,21 +24,22 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
     private final SpotRepository spotRepository;
     private final ModelMapper modelMapper;
+    private final SpotService spotService;
 
     public Page<Place> findAllPlaces(Pageable pageable){
         Page<Place> placePage = placeRepository.findAll(pageable);
         return placePage;
     }
 
-    public PlaceDto createPlace(PlaceDto placeDto) throws NotFoundException{
+    public Place createPlace(PlaceDto placeDto) throws NotFoundException{
         Place place = new Place();
         modelMapper.map(placeDto,place);
         Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpot_id());
         if(spotOpt.isEmpty())
             throw new NotFoundException("not found : spot");
         place.setSpot(spotOpt.get());
-        placeRepository.save(place);
-        return placeDto;
+        place = placeRepository.save(place);
+        return place;
     }
 
     public Place findPlaceById(Long place_id) throws NotFoundException {
@@ -46,10 +49,11 @@ public class PlaceService {
         return place.get();
     }
 
-    public Page<Place> findPlaceByName(String place_name,Pageable pageable) {
-        Page<Place> places = placeRepository.findByName(place_name,pageable);
-        return places;
-    }
+    //현재 사용안함
+//    public Page<Place> findPlaceByName(String place_name,Pageable pageable) {
+//        Page<Place> places = placeRepository.findByName(place_name,pageable);
+//        return places;
+//    }
 
     public void deletePlace(Long place_id) throws NotFoundException{
         Optional<Place> find = placeRepository.findById(place_id);
@@ -70,10 +74,14 @@ public class PlaceService {
         modelMapper.map(placeDto,place);
         place.setSpot(findSpot.get());
         return placeRepository.save(place);
+        //delete 사용 안 하고 mapper 만 써서 id 값 유지 가능할까
+
     }
 
     public PlaceResponseDto createPlaceResponse(Place place){
         PlaceResponseDto placeResponseDto = modelMapper.map(place,PlaceResponseDto.class);
+        SpotResponseDto spotResponseDto = spotService.createSpotResponseDto(place.getSpot());
+        placeResponseDto.setSpotResponseDto(spotResponseDto);
         return placeResponseDto;
     }
 
