@@ -58,6 +58,7 @@ public class PlaceAdminController {
         Place place = placeService.findPlaceById(place_id);
         EntityModel<PlaceResponseDto> model = PlaceResource.modelOf(placeService.createPlaceResponse(place));
         return ResponseEntity.ok(model);
+
     }
 
     @DeleteMapping("/{place_id}")
@@ -71,6 +72,7 @@ public class PlaceAdminController {
         Place place = placeService.createPlace(placeDto);
         EntityModel<PlaceResponseDto> model = PlaceResource.modelOf(placeService.createPlaceResponse(place));
         return ResponseEntity.ok(model);
+
     }
 
     @PutMapping("/{place_id}")

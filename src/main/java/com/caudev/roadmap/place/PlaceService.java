@@ -4,6 +4,7 @@ import com.caudev.roadmap.spot.Spot;
 import com.caudev.roadmap.spot.SpotRepository;
 import com.caudev.roadmap.spot.SpotResponseDto;
 import com.caudev.roadmap.spot.SpotService;
+
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -32,6 +33,7 @@ public class PlaceService {
     }
 
     public Place createPlace(PlaceDto placeDto) throws NotFoundException{
+
         Place place = new Place();
         modelMapper.map(placeDto,place);
         Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpot_id());
@@ -40,6 +42,7 @@ public class PlaceService {
         place.setSpot(spotOpt.get());
         place = placeRepository.save(place);
         return place;
+
     }
 
     public Place findPlaceById(Long place_id) throws NotFoundException {
@@ -82,6 +85,7 @@ public class PlaceService {
         PlaceResponseDto placeResponseDto = modelMapper.map(place,PlaceResponseDto.class);
         SpotResponseDto spotResponseDto = spotService.createSpotResponseDto(place.getSpot());
         placeResponseDto.setSpotResponseDto(spotResponseDto);
+
         return placeResponseDto;
     }
 

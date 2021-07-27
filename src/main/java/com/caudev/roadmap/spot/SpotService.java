@@ -34,4 +34,5 @@ public class SpotService {
         SpotResponseDto spotResponseDto = modelMapper.map(spot,SpotResponseDto.class);
         return spotResponseDto;
     }
+
 }
