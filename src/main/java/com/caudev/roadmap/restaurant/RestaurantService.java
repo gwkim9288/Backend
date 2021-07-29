@@ -1,5 +1,8 @@
 package com.caudev.roadmap.restaurant;
 
+import com.caudev.roadmap.place.Place;
+import com.caudev.roadmap.place.PlaceResponseDto;
+import com.caudev.roadmap.spot.SpotResponseDto;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,11 +26,11 @@ public class RestaurantService {
         return restaurantPage;
     }
 
-    public RestaurantDto createRestaurant(RestaurantDto restaurantDto){
+    public Restaurant createRestaurant(RestaurantDto restaurantDto){
         Restaurant restaurant = new Restaurant();
         modelMapper.map(restaurantDto,restaurant);
-        restaurantRepository.save(restaurant);
-        return restaurantDto;
+        restaurant = restaurantRepository.save(restaurant);
+        return restaurant;
     }
 
     public Restaurant findRestaurantById(Long restaurant_id) throws NotFoundException {
@@ -37,10 +40,10 @@ public class RestaurantService {
         return restaurant.get();
     }
 
-    public Page<Restaurant> findRestaurantByName(String restaurant_name,Pageable pageable) {
-        Page<Restaurant> restaurants = restaurantRepository.findByName(restaurant_name,pageable);
-        return restaurants;
-    }
+//    public Page<Restaurant> findRestaurantByName(String restaurant_name,Pageable pageable) {
+//        Page<Restaurant> restaurants = restaurantRepository.findByName(restaurant_name,pageable);
+//        return restaurants;
+//    }
 
     public void deleteRestaurant(Long restaurant_id) throws NotFoundException{
         Optional<Restaurant> find = restaurantRepository.findById(restaurant_id);
@@ -49,14 +52,26 @@ public class RestaurantService {
         restaurantRepository.deleteById(restaurant_id);
     }
 
-    public RestaurantDto modifyRestaurant(Long restaurant_id, RestaurantDto restaurantDto) throws  NotFoundException {
+    public Restaurant modifyRestaurant(Long restaurant_id, RestaurantDto restaurantDto) throws  NotFoundException {
         Optional<Restaurant> find = restaurantRepository.findById(restaurant_id);
         if(find.isEmpty())
             throw new NotFoundException("not found");
         restaurantRepository.deleteById(restaurant_id);
         Restaurant restaurant = new Restaurant();
         modelMapper.map(restaurantDto,restaurant);
-        restaurantRepository.save(restaurant);
-        return restaurantDto;
+        restaurant = restaurantRepository.save(restaurant);
+        return restaurant;
     }
+
+    public Page<Restaurant> search(String keyword, Pageable pageable) {
+        Page<Restaurant> restaurant = restaurantRepository.findWithSearchCond(keyword,pageable);
+        return restaurant;
+    }
+
+    public RestaurantResponseDto createRestaurantResponse(Restaurant restaurant){
+        RestaurantResponseDto restaurantResponseDto = modelMapper.map(restaurant,RestaurantResponseDto.class);
+
+        return restaurantResponseDto;
+    }
+
 }

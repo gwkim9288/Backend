@@ -1,5 +1,6 @@
 package com.caudev.roadmap.review;
 
+import com.caudev.roadmap.restaurant.RestaurantResponseDto;
 import lombok.*;
 
 @RequiredArgsConstructor
@@ -16,5 +17,7 @@ public class ReviewResponseDto {
     private Long star;
 
     private String writer;
+
+    private RestaurantResponseDto restaurantResponseDto;
 
 }
