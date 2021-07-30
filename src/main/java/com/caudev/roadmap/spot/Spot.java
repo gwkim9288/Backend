@@ -2,10 +2,7 @@ package com.caudev.roadmap.spot;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
@@ -16,7 +13,7 @@ import javax.persistence.Id;
 public class Spot {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="spot_id")
     private Long id;
 

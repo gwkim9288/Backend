@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Place {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="place_id")
     private Long id;
 

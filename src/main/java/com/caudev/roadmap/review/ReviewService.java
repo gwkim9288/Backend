@@ -3,6 +3,7 @@ package com.caudev.roadmap.review;
 import com.caudev.roadmap.restaurant.Restaurant;
 import com.caudev.roadmap.restaurant.RestaurantRepository;
 import com.caudev.roadmap.restaurant.RestaurantResponseDto;
+import com.caudev.roadmap.restaurant.RestaurantService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantService restaurantService;
     private final ModelMapper modelMapper;
 
     public Page<Review> findAllReviews(Pageable pageable){
@@ -34,11 +36,8 @@ public class ReviewService {
         return reviewPage;
     }
 
-    public Page<Review> findReviewByRestaurant(Long restaurant_id) throws NotFoundException {
-        Optional<Restaurant> find = restaurantRepository.findById(restaurant_id);
-        if(find.isEmpty())
-            throw new NotFoundException("not found : restaurant");
-        Page<Review> reviewPage = reviewRepository.findAllByRestaurant(find.get());
+    public Page<Review> findReviewByRestaurant(Long restaurant_id, Pageable pageable) throws NotFoundException {
+        Page<Review> reviewPage = reviewRepository.findAllByRestaurant(restaurantService.findRestaurantById(restaurant_id),pageable);
         return reviewPage;
     }
 
@@ -51,7 +50,13 @@ public class ReviewService {
 
     public ReviewResponseDto createReviewResponse(Review review){
         ReviewResponseDto reviewResponseDto = modelMapper.map(review,ReviewResponseDto.class);
-
+        reviewResponseDto.setRestaurantResponseDto(restaurantService.createRestaurantResponse(review.getRestaurant()));
         return reviewResponseDto;
+    }
+
+    public Review createReview(ReviewDto reviewDto, Long restaurant_id) throws NotFoundException{
+        Review review = modelMapper.map(reviewDto, Review.class);
+        review.setRestaurant(restaurantService.findRestaurantById(restaurant_id));
+        return reviewRepository.save(review);
     }
 }

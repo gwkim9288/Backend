@@ -20,7 +20,7 @@ public class SpotService {
 
     public void createSpot(SpotDto spotDto) {
         Spot spot = new Spot();
-        modelMapper.map(spot,spotDto);
+        spot = modelMapper.map(spotDto, Spot.class);
         spotRepository.save(spot);
     }
 

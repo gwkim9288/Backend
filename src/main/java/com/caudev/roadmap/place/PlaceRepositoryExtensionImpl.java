@@ -21,8 +21,8 @@ public class PlaceRepositoryExtensionImpl extends QuerydslRepositorySupport impl
                 .where(place.name.containsIgnoreCase(keyword))
                 .leftJoin(place.spot, spot).fetchJoin()
                 .distinct();
-        JPQLQuery<Place> planQuery = getQuerydsl().applyPagination(pageable, query);
-        QueryResults<Place> result = planQuery.fetchResults();
+        JPQLQuery<Place> placeQuery = getQuerydsl().applyPagination(pageable, query);
+        QueryResults<Place> result = placeQuery.fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
 }

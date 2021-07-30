@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/admin/restaurants")
+@RequestMapping(path = "/admin/reviews")
 @RequiredArgsConstructor
 public class ReviewAdminController {
 
@@ -36,11 +36,9 @@ public class ReviewAdminController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity findByName(@RequestParam("keyword") String keyword,
+    public ResponseEntity findByCotent(@RequestParam("keyword") String keyword,
                                      @PageableDefault(size = 10) Pageable pageable,
                                      PagedResourcesAssembler<Review> assembler){
-        //이전 버전
-//        return restaurantService.findrestaurantByName(restaurant_name,pageable);
 
         // search 적용
         //검색의 경우는 잘못된 값을 집어넣으면 그냥 그거에 따라 결과가안나옴
@@ -49,14 +47,13 @@ public class ReviewAdminController {
         Page<Review> review = reviewService.searchByContent(keyword, pageable);
         PagedModel<EntityModel<ReviewResponseDto>> model =
                 assembler.toModel(review, p -> ReviewResource.modelOf(reviewService.createReviewResponse(p)));
-//        PagedModel<EntityModel<restaurantResponseDto>> result = restaurantService.addLinksWithSearch(model);
         return ResponseEntity.ok(model);
     }
 
-    @GetMapping("/{restaurant_id}")
+    @GetMapping("/restaurant/{restaurant_id}")
     public ResponseEntity findReviewByRestaurant(@PathVariable Long restaurant_id,@PageableDefault(size = 10) Pageable pageable,
                                            PagedResourcesAssembler<Review> assembler) throws NotFoundException {
-        Page<Review> reviews = reviewService.findReviewByRestaurant(restaurant_id);
+        Page<Review> reviews = reviewService.findReviewByRestaurant(restaurant_id,pageable);
         PagedModel<EntityModel<ReviewResponseDto>> model =
                 assembler.toModel(reviews, p -> ReviewResource.modelOf(reviewService.createReviewResponse(p)));
         return ResponseEntity.ok(model);

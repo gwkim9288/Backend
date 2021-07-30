@@ -14,4 +14,5 @@ public interface PlaceRepository extends JpaRepository<Place,Long>,PlaceReposito
     Page<Place> findAll(Pageable pageable);
 
     Page<Place> findByName(String name,Pageable pageable);
+
 }

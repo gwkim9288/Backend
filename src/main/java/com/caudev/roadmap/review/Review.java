@@ -15,13 +15,9 @@ import javax.persistence.*;
 public class Review {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="review_id")
     private Long id;
-
-    private String title;
-
-    private String writer;
 
     private Long star;
 
