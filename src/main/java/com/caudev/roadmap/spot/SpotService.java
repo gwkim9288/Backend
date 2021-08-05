@@ -18,10 +18,11 @@ public class SpotService {
         return spotRepository.findAll();
     }
 
-    public void createSpot(SpotDto spotDto) {
-        Spot spot = new Spot();
-        spot = modelMapper.map(spotDto, Spot.class);
-        spotRepository.save(spot);
+    public Spot createSpot(SpotDto spotDto) {
+        Spot spot = modelMapper.map(spotDto, Spot.class);
+
+        spot = spotRepository.save(spot);
+        return spot;
     }
 
     public void deleteSpot(Long spot_id) throws NotFoundException{

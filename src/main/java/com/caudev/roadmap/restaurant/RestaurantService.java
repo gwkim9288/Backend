@@ -28,7 +28,7 @@ public class RestaurantService {
 
     public Restaurant createRestaurant(RestaurantDto restaurantDto){
         Restaurant restaurant = new Restaurant();
-        modelMapper.map(restaurantDto,restaurant);
+        restaurant = modelMapper.map(restaurantDto,Restaurant.class);
         restaurant = restaurantRepository.save(restaurant);
         return restaurant;
     }

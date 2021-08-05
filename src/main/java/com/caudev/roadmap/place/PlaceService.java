@@ -34,14 +34,13 @@ public class PlaceService {
 
     public Place createPlace(PlaceDto placeDto) throws NotFoundException{
 
-        Place place = new Place();
-        modelMapper.map(placeDto,place);
+        Place place = modelMapper.map(placeDto,Place.class);
+
         Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpot_id());
         if(spotOpt.isEmpty())
             throw new NotFoundException("not found : spot");
         place.setSpot(spotOpt.get());
-        place = placeRepository.save(place);
-        return place;
+        return placeRepository.save(place);
 
     }
 
