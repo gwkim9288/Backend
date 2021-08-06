@@ -19,5 +19,5 @@ public class PlaceDto {
 
     private String phoneNum;
 
-    private Long spot_id;
+    private Long spotId;
 }

@@ -36,7 +36,7 @@ public class PlaceService {
 
         Place place = modelMapper.map(placeDto,Place.class);
 
-        Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpot_id());
+        Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpotId());
         if(spotOpt.isEmpty())
             throw new NotFoundException("not found : spot");
         place.setSpot(spotOpt.get());
@@ -66,7 +66,7 @@ public class PlaceService {
 
     public Place modifyPlace(Long place_id, PlaceDto placeDto) throws  NotFoundException {
         Optional<Place> findPlace = placeRepository.findById(place_id);
-        Optional<Spot> findSpot = spotRepository.findById(placeDto.getSpot_id());
+        Optional<Spot> findSpot = spotRepository.findById(placeDto.getSpotId());
         if(findPlace.isEmpty())
             throw new NotFoundException("not found : place");
         if(findSpot.isEmpty())
