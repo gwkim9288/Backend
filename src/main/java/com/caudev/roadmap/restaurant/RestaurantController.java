@@ -22,7 +22,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/search")
-    public ResponseEntity findByName(@RequestParam("keyword") String keyword,
+    public ResponseEntity findByName (@RequestParam("keyword") String keyword,
                                      @PageableDefault(size = 10) Pageable pageable,
                                      PagedResourcesAssembler<Restaurant> assembler){
         //이전 버전

@@ -2,6 +2,7 @@ package com.caudev.roadmap.restaurant;
 
 import com.caudev.roadmap.place.Place;
 import com.caudev.roadmap.restaurant.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/admin/restaurants")
@@ -70,8 +74,10 @@ public class RestaurantAdminController {
     }
 
     @PostMapping
-    public ResponseEntity createRestaurant (@RequestBody RestaurantDto restaurantDto){
-        Restaurant restaurant = restaurantService.createRestaurant(restaurantDto);
+    public ResponseEntity createRestaurant (@RequestPart(value = "body") String jsonStr, @RequestPart(value = "image") MultipartFile image) throws IOException {
+
+        RestaurantDto restaurantDto = new ObjectMapper().readValue(jsonStr, RestaurantDto.class);
+        Restaurant restaurant = restaurantService.createRestaurant(restaurantDto,image);
         EntityModel<RestaurantResponseDto> model = RestaurantResource.modelOf(restaurantService.createRestaurantResponse(restaurant));
         return ResponseEntity.ok(model);
 

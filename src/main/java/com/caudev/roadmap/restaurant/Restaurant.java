@@ -32,4 +32,6 @@ public class Restaurant {
 
     private Long viewNum;
 
+    private String image;
+
 }

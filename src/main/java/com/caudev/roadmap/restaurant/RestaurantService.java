@@ -5,13 +5,19 @@ import com.caudev.roadmap.place.PlaceResponseDto;
 import com.caudev.roadmap.spot.SpotResponseDto;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.*;
+import java.nio.channels.MulticastChannel;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Transactional
 @RequiredArgsConstructor
@@ -26,9 +32,16 @@ public class RestaurantService {
         return restaurantPage;
     }
 
-    public Restaurant createRestaurant(RestaurantDto restaurantDto){
-        Restaurant restaurant = new Restaurant();
+    public Restaurant createRestaurant(RestaurantDto restaurantDto, MultipartFile image) throws IOException {
+        Restaurant restaurant;
+
         restaurant = modelMapper.map(restaurantDto,Restaurant.class);
+        if(!image.isEmpty()){
+            String imageName = image.getOriginalFilename();
+            File file = new File("/Users/guenwoo-kim/tempImage/"+imageName);
+            image.transferTo(file);
+            restaurant.setImage(imageName);
+        }
         restaurant = restaurantRepository.save(restaurant);
         return restaurant;
     }
@@ -68,8 +81,19 @@ public class RestaurantService {
         return restaurant;
     }
 
-    public RestaurantResponseDto createRestaurantResponse(Restaurant restaurant){
+    public RestaurantResponseDto createRestaurantResponse(Restaurant restaurant) {
         RestaurantResponseDto restaurantResponseDto = modelMapper.map(restaurant,RestaurantResponseDto.class);
+        InputStream imageStream = null;
+        try {
+            imageStream = new FileInputStream("/Users/guenwoo-kim/tempImage/"+restaurant.getImage());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        InputStreamReader inputStreamReader = new InputStreamReader(imageStream);
+
+        Stream<String> streamOfString= new BufferedReader(inputStreamReader).lines();
+        String streamToString = streamOfString.collect(Collectors.joining());
+        restaurantResponseDto.setImage(streamToString);
 
         return restaurantResponseDto;
     }

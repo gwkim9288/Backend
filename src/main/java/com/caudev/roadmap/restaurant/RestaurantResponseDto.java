@@ -4,6 +4,9 @@ package com.caudev.roadmap.restaurant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.Lob;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +26,7 @@ public class RestaurantResponseDto {
     private Long phoneNum;
 
     private Long viewNum;
+
+    @Lob
+    private String image;
 }
