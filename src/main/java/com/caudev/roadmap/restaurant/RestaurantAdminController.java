@@ -74,7 +74,8 @@ public class RestaurantAdminController {
     }
 
     @PostMapping
-    public ResponseEntity createRestaurant (@RequestPart(value = "body") String jsonStr, @RequestPart(value = "image") MultipartFile image) throws IOException {
+    public ResponseEntity createRestaurant (@RequestPart(value = "body") String jsonStr,
+                                            @RequestPart(value = "image") MultipartFile image) throws IOException {
 
         RestaurantDto restaurantDto = new ObjectMapper().readValue(jsonStr, RestaurantDto.class);
         Restaurant restaurant = restaurantService.createRestaurant(restaurantDto,image);

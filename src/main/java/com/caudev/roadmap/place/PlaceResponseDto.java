@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Lob;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,5 +27,8 @@ public class PlaceResponseDto {
     private Long phoneNum;
 
     private SpotResponseDto spotResponseDto;
+
+    @Lob
+    private String image;
 
 }

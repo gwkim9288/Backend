@@ -1,5 +1,8 @@
 package com.caudev.roadmap.place;
 
+import com.caudev.roadmap.restaurant.RestaurantDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Not;
@@ -12,6 +15,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/admin/places")
@@ -22,6 +28,11 @@ public class PlaceAdminController {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity notFoundex(NotFoundException e){
+        return ResponseEntity.notFound().eTag(e.getMessage()).build();
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity IOex(NotFoundException e){
         return ResponseEntity.notFound().eTag(e.getMessage()).build();
     }
 
@@ -68,8 +79,15 @@ public class PlaceAdminController {
     }
 
     @PostMapping
-    public ResponseEntity createPlace (@RequestBody PlaceDto placeDto) throws NotFoundException {
-        Place place = placeService.createPlace(placeDto);
+    public ResponseEntity createPlace (@RequestPart(value = "body") String jsonStr,
+                                       @RequestPart(value = "image") MultipartFile image) throws NotFoundException, IOException {
+        PlaceDto placeDto = null;
+        try {
+            placeDto = new ObjectMapper().readValue(jsonStr, PlaceDto.class);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.badRequest().body("Place info format is invalid");
+        }
+        Place place = placeService.createPlace(placeDto,image);
         EntityModel<PlaceResponseDto> model = PlaceResource.modelOf(placeService.createPlaceResponse(place));
         return ResponseEntity.ok(model);
 

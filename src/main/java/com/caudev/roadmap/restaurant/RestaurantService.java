@@ -98,4 +98,12 @@ public class RestaurantService {
         return restaurantResponseDto;
     }
 
+    public Restaurant updateRestaurantViewNum (Restaurant restaurant){
+        Long viewNum = restaurant.getViewNum();
+        viewNum++;
+        restaurant.setViewNum(viewNum);
+        return restaurantRepository.save(restaurant);
+    }
+
+
 }

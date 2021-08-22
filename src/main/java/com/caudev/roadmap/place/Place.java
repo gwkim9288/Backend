@@ -31,4 +31,5 @@ public class Place {
     @ManyToOne(fetch = FetchType.LAZY)
     private Spot spot;
 
+    private String image;
 }
