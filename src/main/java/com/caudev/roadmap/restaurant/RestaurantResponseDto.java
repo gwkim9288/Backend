@@ -1,18 +1,17 @@
-package com.caudev.roadmap.place;
+package com.caudev.roadmap.restaurant;
 
-import com.caudev.roadmap.spot.SpotRepository;
-import com.caudev.roadmap.spot.SpotResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Lob;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceResponseDto {
+public class RestaurantResponseDto {
 
     private Long id;
 
@@ -26,9 +25,7 @@ public class PlaceResponseDto {
 
     private Long phoneNum;
 
-    private SpotResponseDto spotResponseDto;
+    private Long viewNum;
 
-    @Lob
     private String image;
-
 }

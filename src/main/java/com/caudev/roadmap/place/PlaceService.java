@@ -11,11 +11,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Transactional
 @RequiredArgsConstructor
@@ -32,16 +36,28 @@ public class PlaceService {
         return placePage;
     }
 
-    public Place createPlace(PlaceDto placeDto) throws NotFoundException{
+    public Place createPlace(PlaceDto placeDto, MultipartFile image) throws NotFoundException, IOException {
 
-        Place place = new Place();
-        modelMapper.map(placeDto,place);
-        Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpot_id());
+        Place place = modelMapper.map(placeDto,Place.class);
+
+        Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpotId());
+
         if(spotOpt.isEmpty())
             throw new NotFoundException("not found : spot");
+
+        if(!image.isEmpty()){
+            String imageName = image.getOriginalFilename();
+            File file = new File("/Users/guenwoo-kim/tempImage/"+imageName);
+            image.transferTo(file);
+            place.setImage(imageName);
+        } else {
+            place.setImage(spotOpt.get().getImage());
+        }
+
         place.setSpot(spotOpt.get());
-        place = placeRepository.save(place);
-        return place;
+
+        return placeRepository.save(place);
+
 
     }
 
@@ -67,7 +83,7 @@ public class PlaceService {
 
     public Place modifyPlace(Long place_id, PlaceDto placeDto) throws  NotFoundException {
         Optional<Place> findPlace = placeRepository.findById(place_id);
-        Optional<Spot> findSpot = spotRepository.findById(placeDto.getSpot_id());
+        Optional<Spot> findSpot = spotRepository.findById(placeDto.getSpotId());
         if(findPlace.isEmpty())
             throw new NotFoundException("not found : place");
         if(findSpot.isEmpty())
@@ -84,6 +100,18 @@ public class PlaceService {
     public PlaceResponseDto createPlaceResponse(Place place){
         PlaceResponseDto placeResponseDto = modelMapper.map(place,PlaceResponseDto.class);
         SpotResponseDto spotResponseDto = spotService.createSpotResponseDto(place.getSpot());
+//        InputStream imageStream = null;
+//        try {
+//            imageStream = new FileInputStream("/Users/guenwoo-kim/tempImage/"+place.getImage());
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        InputStreamReader inputStreamReader = new InputStreamReader(imageStream);
+//
+//        Stream<String> streamOfString= new BufferedReader(inputStreamReader).lines();
+//        String streamToString = streamOfString.collect(Collectors.joining());
+//        placeResponseDto.setImage(streamToString);
+
         placeResponseDto.setSpotResponseDto(spotResponseDto);
 
         return placeResponseDto;

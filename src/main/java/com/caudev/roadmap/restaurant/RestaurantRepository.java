@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long>,RestaurantRepositoryExtension {
     Page<Restaurant> findAll(Pageable pageable);
 
     Page<Restaurant> findByName(String name,Pageable pageable);

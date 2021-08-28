@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 public class Restaurant {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="restaurant_id")
     private Long id;
 
@@ -31,5 +31,7 @@ public class Restaurant {
     private Long phoneNum;
 
     private Long viewNum;
+
+    private String image;
 
 }
