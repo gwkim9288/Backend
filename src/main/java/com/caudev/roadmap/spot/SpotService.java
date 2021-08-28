@@ -26,7 +26,7 @@ public class SpotService {
         Spot spot = modelMapper.map(spotDto, Spot.class);
         if(!image.isEmpty()){
             String imageName = image.getOriginalFilename();
-            File file = new File("/Users/guenwoo-kim/tempImage/"+imageName);
+            File file = new File("/home/ec2-user/apps/images/"+imageName);
             image.transferTo(file);
             spot.setImage(imageName);
         }
