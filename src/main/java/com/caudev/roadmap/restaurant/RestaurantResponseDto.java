@@ -27,6 +27,5 @@ public class RestaurantResponseDto {
 
     private Long viewNum;
 
-    @Lob
     private String image;
 }

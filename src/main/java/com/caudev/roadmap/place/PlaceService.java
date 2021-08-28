@@ -40,16 +40,19 @@ public class PlaceService {
 
         Place place = modelMapper.map(placeDto,Place.class);
 
+        Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpotId());
+        if(spotOpt.isEmpty())
+            throw new NotFoundException("not found : spot");
+
         if(!image.isEmpty()){
             String imageName = image.getOriginalFilename();
             File file = new File("/Users/guenwoo-kim/tempImage/"+imageName);
             image.transferTo(file);
             place.setImage(imageName);
+        } else {
+            place.setImage(spotOpt.get().getImage());
         }
 
-        Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpotId());
-        if(spotOpt.isEmpty())
-            throw new NotFoundException("not found : spot");
         place.setSpot(spotOpt.get());
         return placeRepository.save(place);
 
@@ -94,17 +97,17 @@ public class PlaceService {
     public PlaceResponseDto createPlaceResponse(Place place){
         PlaceResponseDto placeResponseDto = modelMapper.map(place,PlaceResponseDto.class);
         SpotResponseDto spotResponseDto = spotService.createSpotResponseDto(place.getSpot());
-        InputStream imageStream = null;
-        try {
-            imageStream = new FileInputStream("/Users/guenwoo-kim/tempImage/"+place.getImage());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        InputStreamReader inputStreamReader = new InputStreamReader(imageStream);
-
-        Stream<String> streamOfString= new BufferedReader(inputStreamReader).lines();
-        String streamToString = streamOfString.collect(Collectors.joining());
-        placeResponseDto.setImage(streamToString);
+//        InputStream imageStream = null;
+//        try {
+//            imageStream = new FileInputStream("/Users/guenwoo-kim/tempImage/"+place.getImage());
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        InputStreamReader inputStreamReader = new InputStreamReader(imageStream);
+//
+//        Stream<String> streamOfString= new BufferedReader(inputStreamReader).lines();
+//        String streamToString = streamOfString.collect(Collectors.joining());
+//        placeResponseDto.setImage(streamToString);
         placeResponseDto.setSpotResponseDto(spotResponseDto);
 
         return placeResponseDto;

@@ -1,10 +1,14 @@
 package com.caudev.roadmap.spot;
 
+import com.caudev.roadmap.restaurant.Restaurant;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -18,8 +22,14 @@ public class SpotService {
         return spotRepository.findAll();
     }
 
-    public Spot createSpot(SpotDto spotDto) {
+    public Spot createSpot(SpotDto spotDto,  MultipartFile image) throws IOException {
         Spot spot = modelMapper.map(spotDto, Spot.class);
+        if(!image.isEmpty()){
+            String imageName = image.getOriginalFilename();
+            File file = new File("/Users/guenwoo-kim/tempImage/"+imageName);
+            image.transferTo(file);
+            spot.setImage(imageName);
+        }
 
         spot = spotRepository.save(spot);
         return spot;

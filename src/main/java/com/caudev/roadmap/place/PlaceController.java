@@ -1,5 +1,6 @@
 package com.caudev.roadmap.place;
 
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,10 +10,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +32,15 @@ public class PlaceController {
                 assembler.toModel(place, p -> PlaceResource.modelOf(placeService.createPlaceResponse(p)));
 //        PagedModel<EntityModel<PlaceResponseDto>> result = placeService.addLinksWithSearch(model);
         return ResponseEntity.ok(model);
+    }
+
+    @GetMapping("/{place_id}")
+    public ResponseEntity findById(@PathVariable Long place_id) throws NotFoundException {
+
+        Place place = placeService.findPlaceById(place_id);
+        EntityModel<PlaceResponseDto> model = PlaceResource.modelOf(placeService.createPlaceResponse(place));
+        return ResponseEntity.ok(model);
+
     }
 
 }

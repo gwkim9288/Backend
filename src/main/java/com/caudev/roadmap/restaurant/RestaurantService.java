@@ -42,6 +42,7 @@ public class RestaurantService {
             image.transferTo(file);
             restaurant.setImage(imageName);
         }
+        restaurant.setViewNum(0L);
         restaurant = restaurantRepository.save(restaurant);
         return restaurant;
     }
@@ -58,20 +59,19 @@ public class RestaurantService {
 //        return restaurants;
 //    }
 
-    public void deleteRestaurant(Long restaurant_id) throws NotFoundException{
+    public Long deleteRestaurant(Long restaurant_id) throws NotFoundException{
         Optional<Restaurant> find = restaurantRepository.findById(restaurant_id);
         if(find.isEmpty())
             throw new NotFoundException("not found");
+        Long viewNum = find.get().getViewNum();
         restaurantRepository.deleteById(restaurant_id);
+        return viewNum;
     }
 
     public Restaurant modifyRestaurant(Long restaurant_id, RestaurantDto restaurantDto) throws  NotFoundException {
-        Optional<Restaurant> find = restaurantRepository.findById(restaurant_id);
-        if(find.isEmpty())
-            throw new NotFoundException("not found");
-        restaurantRepository.deleteById(restaurant_id);
-        Restaurant restaurant = new Restaurant();
-        modelMapper.map(restaurantDto,restaurant);
+        Long viewNum = deleteRestaurant(restaurant_id);
+        Restaurant restaurant = modelMapper.map(restaurantDto,Restaurant.class);
+        restaurant.setViewNum(viewNum);
         restaurant = restaurantRepository.save(restaurant);
         return restaurant;
     }
@@ -83,17 +83,17 @@ public class RestaurantService {
 
     public RestaurantResponseDto createRestaurantResponse(Restaurant restaurant) {
         RestaurantResponseDto restaurantResponseDto = modelMapper.map(restaurant,RestaurantResponseDto.class);
-        InputStream imageStream = null;
-        try {
-            imageStream = new FileInputStream("/Users/guenwoo-kim/tempImage/"+restaurant.getImage());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        InputStreamReader inputStreamReader = new InputStreamReader(imageStream);
-
-        Stream<String> streamOfString= new BufferedReader(inputStreamReader).lines();
-        String streamToString = streamOfString.collect(Collectors.joining());
-        restaurantResponseDto.setImage(streamToString);
+//        InputStream imageStream = null;
+//        try {
+//            imageStream = new FileInputStream("/Users/guenwoo-kim/tempImage/"+restaurant.getImage());
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        InputStreamReader inputStreamReader = new InputStreamReader(imageStream);
+//
+//        Stream<String> streamOfString= new BufferedReader(inputStreamReader).lines();
+//        String streamToString = streamOfString.collect(Collectors.joining());
+//        restaurantResponseDto.setImage(streamToString);
 
         return restaurantResponseDto;
     }

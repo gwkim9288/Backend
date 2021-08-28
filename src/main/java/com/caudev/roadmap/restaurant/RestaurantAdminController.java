@@ -29,6 +29,11 @@ public class RestaurantAdminController {
         return ResponseEntity.notFound().eTag(e.getMessage()).build();
     }
 
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity IOex(NotFoundException e){
+        return ResponseEntity.notFound().eTag(e.getMessage()).build();
+    }
+
     @GetMapping
     public ResponseEntity findAllRestaurants(@PageableDefault(size = 10) Pageable pageable, PagedResourcesAssembler<Restaurant> assembler){
         Page<Restaurant> restaurants = restaurantService.findAllRestaurants(pageable);

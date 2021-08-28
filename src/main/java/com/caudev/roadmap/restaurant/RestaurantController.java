@@ -1,6 +1,7 @@
 package com.caudev.roadmap.restaurant;
 
 
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,10 +10,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +34,14 @@ public class RestaurantController {
         PagedModel<EntityModel<RestaurantResponseDto>> model =
                 assembler.toModel(restaurant, p -> RestaurantResource.modelOf(restaurantService.createRestaurantResponse(p)));
 //        PagedModel<EntityModel<restaurantResponseDto>> result = restaurantService.addLinksWithSearch(model);
+        return ResponseEntity.ok(model);
+    }
+
+    @GetMapping("/{restaurant_id}")
+    public ResponseEntity findById(@PathVariable Long restaurant_id) throws NotFoundException {
+        Restaurant restaurant = restaurantService.findRestaurantById(restaurant_id);
+        restaurantService.updateRestaurantViewNum(restaurant);
+        EntityModel<RestaurantResponseDto> model = RestaurantResource.modelOf(restaurantService.createRestaurantResponse(restaurant));
         return ResponseEntity.ok(model);
     }
 }

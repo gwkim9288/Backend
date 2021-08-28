@@ -20,4 +20,6 @@ public class SpotResponseDto {
     private String detail;
 
     private Long phoneNum;
+
+    private String Image;
 }

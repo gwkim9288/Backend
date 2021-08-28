@@ -18,5 +18,4 @@ public class SpotDto {
     private String detail;
 
     private Long phoneNum;
-
 }
