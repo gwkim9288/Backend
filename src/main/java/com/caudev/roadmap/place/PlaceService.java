@@ -41,6 +41,7 @@ public class PlaceService {
         Place place = modelMapper.map(placeDto,Place.class);
 
         Optional<Spot> spotOpt = spotRepository.findById(placeDto.getSpotId());
+
         if(spotOpt.isEmpty())
             throw new NotFoundException("not found : spot");
 
@@ -54,7 +55,9 @@ public class PlaceService {
         }
 
         place.setSpot(spotOpt.get());
+
         return placeRepository.save(place);
+
 
     }
 
@@ -108,6 +111,7 @@ public class PlaceService {
 //        Stream<String> streamOfString= new BufferedReader(inputStreamReader).lines();
 //        String streamToString = streamOfString.collect(Collectors.joining());
 //        placeResponseDto.setImage(streamToString);
+
         placeResponseDto.setSpotResponseDto(spotResponseDto);
 
         return placeResponseDto;

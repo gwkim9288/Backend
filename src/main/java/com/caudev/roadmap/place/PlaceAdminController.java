@@ -88,6 +88,7 @@ public class PlaceAdminController {
             return ResponseEntity.badRequest().body("Place info format is invalid");
         }
         Place place = placeService.createPlace(placeDto,image);
+
         EntityModel<PlaceResponseDto> model = PlaceResource.modelOf(placeService.createPlaceResponse(place));
         return ResponseEntity.ok(model);
 

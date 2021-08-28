@@ -22,4 +22,5 @@ public class SpotResponseDto {
     private Long phoneNum;
 
     private String Image;
+
 }
