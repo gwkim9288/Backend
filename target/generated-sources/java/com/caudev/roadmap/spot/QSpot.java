@@ -23,6 +23,8 @@ public class QSpot extends EntityPathBase<Spot> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath Image = createString("Image");
+
     public final NumberPath<Double> location_x = createNumber("location_x", Double.class);
 
     public final NumberPath<Double> location_y = createNumber("location_y", Double.class);

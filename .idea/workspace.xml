@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2cc50ebf-fef3-4032-98a3-63631ab62fcf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/java/com/caudev/roadmap/place/QPlace.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/java/com/caudev/roadmap/place/QPlace.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/java/com/caudev/roadmap/restaurant/QRestaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/java/com/caudev/roadmap/restaurant/QRestaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/java/com/caudev/roadmap/spot/QSpot.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/java/com/caudev/roadmap/spot/QSpot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,13 +70,15 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -101,7 +107,8 @@
       <workItem from="1628845816451" duration="332000" />
       <workItem from="1629288973661" duration="784000" />
       <workItem from="1629357460149" duration="8243000" />
-      <workItem from="1629447801368" duration="11880000" />
+      <workItem from="1629447801368" duration="12320000" />
+      <workItem from="1630736158992" duration="1914000" />
     </task>
     <servers />
   </component>
