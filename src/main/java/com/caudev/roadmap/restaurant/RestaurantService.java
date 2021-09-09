@@ -38,7 +38,7 @@ public class RestaurantService {
         restaurant = modelMapper.map(restaurantDto,Restaurant.class);
         if(!image.isEmpty()){
             String imageName = image.getOriginalFilename();
-            File file = new File("/home/ec2-user/apps/images"+imageName);
+            File file = new File("/Users/guenwoo-kim/tempImage"+imageName);
             image.transferTo(file);
             restaurant.setImage(imageName);
         }

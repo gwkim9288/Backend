@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
 
-    private String resourcePath = "file:///home/ec2-user/apps/images/";
+    private String resourcePath = "file:///Users/guenwoo-kim/tempImage";
 
     private String uploadPath = "/images/**";
 

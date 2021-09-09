@@ -47,7 +47,7 @@ public class PlaceService {
 
         if(!image.isEmpty()){
             String imageName = image.getOriginalFilename();
-            File file = new File("/home/ec2-user/apps/images/"+imageName);
+            File file = new File("/Users/guenwoo-kim/tempImage"+imageName);
             image.transferTo(file);
             place.setImage(imageName);
         } else {
