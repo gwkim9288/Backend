@@ -22,9 +22,29 @@ public class RestaurantRepositoryExtensionImpl extends QuerydslRepositorySupport
         JPQLQuery<Restaurant> query = from(restaurant)
                 .where(restaurant.name.containsIgnoreCase(keyword))
                 .distinct();
-        JPQLQuery<Restaurant> planQuery = getQuerydsl().applyPagination(pageable, query);
-        QueryResults<Restaurant> result = planQuery.fetchResults();
-        return new PageImpl<>(result.getResults(), pageable, result.getTotal());
+        JPQLQuery<Restaurant> restaurantJPQLQuery = getQuerydsl().applyPagination(pageable, query);
+        QueryResults<Restaurant> results = restaurantJPQLQuery.fetchResults();
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
+    @Override
+    public Page<Restaurant> findWithViewNumDesc(Pageable pageable) {
+        JPQLQuery<Restaurant> query = from(restaurant)
+                .orderBy(restaurant.viewNum.desc())
+                .distinct();
+        JPQLQuery<Restaurant> restaurantJPQLQuery= getQuerydsl().applyPagination(pageable, query);
+        QueryResults<Restaurant> results = restaurantJPQLQuery.fetchResults();
+        return new PageImpl<>(results.getResults(),pageable, results.getTotal());
+    }
+
+    //수정필요 (star point 갱신)
+    @Override
+    public Page<Restaurant> findWithStarPointDesc(Pageable pageable) {
+        JPQLQuery<Restaurant> query = from(restaurant)
+                .orderBy(restaurant.viewNum.desc())
+                .distinct();
+        JPQLQuery<Restaurant> restaurantJPQLQuery= getQuerydsl().applyPagination(pageable, query);
+        QueryResults<Restaurant> results = restaurantJPQLQuery.fetchResults();
+        return new PageImpl<>(results.getResults(),pageable, results.getTotal());
+    }
 }

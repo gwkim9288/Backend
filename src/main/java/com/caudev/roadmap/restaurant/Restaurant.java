@@ -34,4 +34,6 @@ public class Restaurant {
 
     private String image;
 
+    private double starPoint;
+
 }

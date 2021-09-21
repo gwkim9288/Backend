@@ -82,6 +82,7 @@ public class RestaurantService {
     }
 
     public RestaurantResponseDto createRestaurantResponse(Restaurant restaurant) {
+        updateRestaurantViewNum(restaurant);
         RestaurantResponseDto restaurantResponseDto = modelMapper.map(restaurant,RestaurantResponseDto.class);
 //        InputStream imageStream = null;
 //        try {

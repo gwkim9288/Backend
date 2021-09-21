@@ -9,4 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface RestaurantRepositoryExtension {
     Page<Restaurant> findWithSearchCond(String keyword, Pageable pageable);
 
+    Page<Restaurant> findWithViewNumDesc(Pageable pageable);
+
+    Page<Restaurant> findWithStarPointDesc(Pageable pageable);
+
 }
